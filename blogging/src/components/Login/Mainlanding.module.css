@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Mitr:wght@600&display=swap');
+.main {
+  background-color: black;
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+  height: 100vmin;
+  justify-content: space-evenly;
+  align-items: center;
+  font-family: "Merriweather", serif;
+  font-weight: 700;
+  font-style: normal;
+  color: rgb(138, 143, 147);
+  /* border: 1px solid black; */
+  text-align: center;
+}
+.title {
+  font-size: 10vw;
+  background: linear-gradient(
+    to right,
+    #e83a0f,
+    #feb47b
+  ); /* Define your gradient colors */
+  -webkit-background-clip: text; /* Clip text to the background area */
+  color: transparent; /* Make the text transparent */
+}
