@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 
 const baseURL = "http://localhost:8080";
 // Get request
@@ -44,3 +45,36 @@ export const useApiCallPost = (url, token = null, payload) => {
 
   return { data, error };
 };
+
+//Registration Validation Check
+export function validateForm(RegFormData) {
+  if (RegFormData.uName.trim() === "") {
+    toast.error("Username must not be empty");
+    return false;
+  }
+
+  if (RegFormData.password.trim() === "") {
+    toast.error("Password must not be empty");
+    return false;
+  }
+
+  if (RegFormData.password.length < 6) {
+    toast.error("Password must be at least 6 characters long");
+    return false;
+  }
+
+  const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
+  if (!emailPattern.test(RegFormData.email)) {
+    toast.error("Please enter a valid email address");
+    return false;
+  }
+
+  if (RegFormData.Contact === "") {
+    toast.error("Contact must not be empty");
+    return false;
+  }
+
+  // You can add more specific validation rules for the contact field if needed
+
+  return true; // Form is valid
+}

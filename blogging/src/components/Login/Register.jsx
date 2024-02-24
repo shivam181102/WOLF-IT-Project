@@ -9,83 +9,15 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
   const { setlogin } = useContext(ContextData);
-  const [FormData, setFormData] = useState({
-    uName: "",
-    password: "",
-    email: "",
-    Contact: "",
-  });
+  const { handleRegister,RegFormData, setRegFormData } = useContext(ContextData);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
+    setRegFormData((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const navigate = useNavigate();
-  const { setWlc, setuName, settoken } = useContext(ContextData);
-
-  function validateForm() {
-    if (FormData.uName.trim() === "") {
-      toast.error("Username must not be empty");
-      return false;
-    }
-
-    if (FormData.password.trim() === "") {
-      toast.error("Password must not be empty");
-      return false;
-    }
-
-    if (FormData.password.length < 6) {
-      toast.error("Password must be at least 6 characters long");
-      return false;
-    }
-
-    const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,})+$/;
-    if (!emailPattern.test(FormData.email)) {
-      toast.error("Please enter a valid email address");
-      return false;
-    }
-
-    if (FormData.Contact === "") {
-      toast.error("Contact must not be empty");
-      return false;
-    }
-
-    // You can add more specific validation rules for the contact field if needed
-
-    return true; // Form is valid
-  }
-
-  const baseURL = "http://localhost:8080/user";
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        const data = FormData;
-        const response = await axios.post(`${baseURL}/register`, data);
-        console.log(response);
-        if (response.status === 200) {
-          settoken(response.data.token);
-          setuName(response.data.username);
-          setWlc(true);
-          toast.success(response.data.message);
-          navigate("/home");
-        }
-      } catch (error) {
-        if (
-          (error.response && error.response.status >= 400) ||
-          error.response.status <= 500
-        ) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: `${error.response.data.message}`,
-          });
-        } else {
-          alert("An error occurred:", error.response.data.message);
-        }
-      }
-    }
-  };
+  
+  
 
   return (
     <Container component="main" maxWidth="lg">
@@ -108,7 +40,7 @@ const Register = () => {
           fullWidth
           name="uName"
           required
-          value={FormData.uName}
+          value={RegFormData.uName}
           onChange={handleChange}
         />
         <TextField
@@ -118,7 +50,7 @@ const Register = () => {
           required
           name="password"
           fullWidth
-          value={FormData.password}
+          value={RegFormData.password}
           onChange={handleChange}
         />
         <TextField
@@ -128,7 +60,7 @@ const Register = () => {
           required
           fullWidth
           name="email"
-          value={FormData.email}
+          value={RegFormData.email}
           onChange={handleChange}
         />
         <TextField
@@ -138,14 +70,14 @@ const Register = () => {
           required
           name="Contact"
           fullWidth
-          value={FormData.Contact}
+          value={RegFormData.Contact}
           onChange={handleChange}
         />
         <Button
           variant="contained"
           color="primary"
           fullWidth
-          onClick={handleLogin}
+          onClick={handleRegister}
           sx={{
             marginTop: 2,
             background: "-webkit-linear-gradient(#ff7e5f, #feb47b)",

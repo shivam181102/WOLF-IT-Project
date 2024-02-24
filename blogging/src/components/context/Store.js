@@ -3,7 +3,8 @@ import { ContextData } from './ContextData'
 import { useNavigate } from "react-router-dom";
 import toast from 'react-hot-toast';
 import axios from 'axios';
-import {useApiCallPost} from '../CountomHook&Function'
+import {useApiCallPost, validateForm} from '../CountomHook&Function'
+import Swal from 'sweetalert2';
 
 
 function Store({children}) {
@@ -27,7 +28,37 @@ function Store({children}) {
     });
     
     // Registration API Call
-    
+    const handleRegister = async (e) => {
+      e.preventDefault();
+      if (validateForm(RegFormData)) {
+        try {
+          const data = RegFormData;
+          const response = await axios.post(`${baseURL}/user/register`, data);
+          console.log(response);
+          if (response.status === 200) {
+            settoken(response.data.token);
+            setuName(response.data.username);
+            setWlc(true);
+            toast.success(response.data.message);
+            navigate("/home");
+          }
+        } catch (error) {
+          if (
+            (error.response && error.response.status >= 400) ||
+            error.response.status <= 500
+          ) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: `${error.response.data.message}`,
+            });
+          } else {
+            alert("An error occurred:", error.response.data.message);
+          }
+        }
+      }
+    };
+
     // Login API Call
   const handleLogin = async(e) => {
     e.preventDefault()
@@ -47,7 +78,7 @@ function Store({children}) {
   };
     
   return (
-    <ContextData.Provider value={{uName,RegFormData, setRegFormData,LoginFormData,handleLogin, setLoginFormData, setuName, token, settoken,login, setlogin,wlc, setWlc}}>
+    <ContextData.Provider value={{uName,RegFormData,handleRegister, setRegFormData,LoginFormData,handleLogin, setLoginFormData, setuName, token, settoken,login, setlogin,wlc, setWlc}}>
         {children}
     </ContextData.Provider>
   )
