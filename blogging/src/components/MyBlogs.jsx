@@ -3,7 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { ContextData } from "./context/ContextData";
 
-import toast from "react-hot-toast";
+
 import  'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useNavigate } from "react-router-dom";
 import MyNewBlog from "./MyNewBlog";
@@ -11,60 +11,26 @@ import MyNewBlog from "./MyNewBlog";
 
 
 function MyBlogs() {
-  const baseURL = "http://localhost:8080/blog/Myblog";
-  const { token, uName } = useContext(ContextData);
-  const [blogData, setblogData] = useState([]);
+ 
+  const { token,handleDelete,setidStore,blogData, setblogData } = useContext(ContextData);
   
-  const [idStore, setidStore] = useState()
+  
+  
 
   
   const navigate = useNavigate()
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const headers = {
-          Authorization: `Bearer ${token}`,
-        };
-        const response = await axios.get(`${baseURL}`, { headers });
-        // console.log(response);
-        if (response.status === 200) {
-          setblogData(response.data);
-        }
-        console.log("MyBblog: " + blogData);
-      } catch (error) {
-        if (
-          (error.response && error.response.status >= 400) ||
-          error.response.status <= 500
-        ) {
-          // console.log(error)
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: `${error.response.data.message}`,
-          });
-          navigate('/login')
-          // alert("An error occurred:", error.response.data.message);
-        } else {
-          alert("An error occurred:", error.response.data.message);
-        }
-      }
-    }
-    fetchData();
-  }, []);
 
   // MOdel JS Code
   const exampleModal = document.getElementById("exampleModal");
   if (exampleModal) {
     exampleModal.addEventListener("show.bs.modal", (event) => {
-      // Button that triggered the modal
       const button = event.relatedTarget;
-      // Extract info from data-bs-* attributes
       const recipient = button.getAttribute("data-bs-whatever");
 
       function modal(recipient) {
         return new Promise((resolve, reject) => {
-          // console.log(recipient);
+          console.log(recipient);
           const foundObject = blogData.find((obj) => obj._id === recipient);
           if (foundObject) {
             resolve(foundObject);
@@ -74,8 +40,6 @@ function MyBlogs() {
         });
       }
 
-      // Example usage:
-
       const modalTitle = exampleModal.querySelector(".modal-title");
       const modelUsername = exampleModal.querySelector("#modelUsername");
       const modelDesc = exampleModal.querySelector("#modelDesc");
@@ -83,11 +47,11 @@ function MyBlogs() {
 
       modal(recipient)
         .then((info) => {
-          modalTitle.textContent = info.title;
+          modalTitle.textContent =info.uName ;
           modelDesc.textContent = info.desc;
-          modelUsername.textContent = info.uName;
+          modelUsername.textContent =info.title ;
           setidStore(info._id);
-          // console.log(info._id);
+          console.log(info._id);
         })
         .catch((error) => {
           console.error(error);
@@ -95,33 +59,8 @@ function MyBlogs() {
     });
   }
 
-  const modalRef = useRef(null); 
-  const handleDelete = async () => {
-  //  const modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-  console.log(idStore);
   
-  try {
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    };
-    
-    const data = { _id:idStore };
-    const response = await axios.delete(
-      `http://localhost:8080/blog/delBlog`,
-      { 
-        headers: headers,
-        data: data
-      }
-    );
-    if (response.status === 200) {
-      toast.success(response.data.message);
-      
-    }
-  } catch (error) {
-    toast.error(error.message);
-  }
-};
+  
 
   return (
     <>
@@ -168,7 +107,7 @@ function MyBlogs() {
         tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-        ref={modalRef}
+        
       >
         <div className="modal-dialog modal-lg">
           <div className="modal-content">

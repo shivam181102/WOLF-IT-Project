@@ -2,12 +2,13 @@ import { Blog } from "../model/BlogModel.js";
 
 export const newblog = async (req, res) => {
   try {
+    console.log(req.body)
     const { uName,title, desc } = req.body;
     if (!uName || !title || !desc) {
         return res.status(400).json({ message: 'Missing required fields'});
       }
     const data = await Blog.create({ uName, title, desc });
-    res.status(200).json(data);
+    res.status(200).json({data,message:"New Blog Added"});
   } catch (error) {
     res.status(400).json(error);
   }
@@ -46,7 +47,7 @@ console.log(user)
     if (blog.uName !== user.uName) {
       res
         .status(403)
-        .json({ message: "You are not authorized to delete this blog" });
+        .json({blog, message: "You are not authorized to delete this blog" });
     } else {
      const deletedBlog = await Blog.findByIdAndDelete(_id);
       res

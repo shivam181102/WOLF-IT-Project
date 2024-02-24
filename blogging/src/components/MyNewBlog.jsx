@@ -2,46 +2,17 @@
 import { Fab } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
-import Swal from "sweetalert2";
 import { ContextData } from "./context/ContextData";
-
-import toast from "react-hot-toast";
-
 
 
 function MyNewBlog() {
-    const { token, uName } = useContext(ContextData);
-    const [newBlog, setnewBlog] = useState({
-        title: "",
-        desc: "",
-      });
+    const { handleNewBlog, newBlog, setnewBlog } = useContext(ContextData);
+    
       const handleChange = (e) => {
         const { name, value } = e.target;
         setnewBlog((prevState) => ({ ...prevState, [name]: value }));
       };
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        
-        try {
-          const headers = {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          };
-          console.log(uName);
-          const data = { title: newBlog.title, desc: newBlog.desc, uName: uName };
-          const response = await axios.post(
-            `http://localhost:8080/blog/newblog`,
-            data,
-            { headers }
-          );
-          if (response.status === 200) {
-            toast.success(response.data.message);
-          }
-        } catch (error) {
-          toast.error(error.message);
-        }
-      };
+    
   return (
     <>
     <Fab
@@ -128,7 +99,7 @@ function MyNewBlog() {
               </button>
               <button
                 type="button"
-                onClick={handleSubmit}
+                onClick={handleNewBlog}
                 className="btn btn-primary"
                 style={{background: "-webkit-linear-gradient(#ff7e5f, #feb47b)",
             border: "none",
