@@ -139,9 +139,9 @@ function MyBlogs() {
               }}
             >
               <div className="card-body">
-                <h5 className="card-title">{data.title}</h5>
+                <h5 className="card-title">{data.uName}</h5>
                 <h6 className="card-subtitle mb-2 text-body-secondary">
-                  {data.uName}
+                {data.title}
                 </h6>
                 <p className="card-text">{data.desc}</p>
                 <button
@@ -150,6 +150,9 @@ function MyBlogs() {
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModal"
                   data-bs-whatever={data._id}
+                  style={{background: "-webkit-linear-gradient(#ff7e5f, #feb47b)",
+            border: "none",
+            color: "white",}}
                 >
                   Read
                 </button>

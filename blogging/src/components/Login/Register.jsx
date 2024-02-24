@@ -68,11 +68,6 @@ const Register = () => {
           setuName(response.data.username);
           setWlc(true);
           toast.success(response.data.message);
-          // Swal.fire({
-          //   icon: "success",
-          //   title: "Success",
-          //   text: "Logged in",
-          // });
           navigate("/home");
         }
       } catch (error) {
@@ -80,13 +75,11 @@ const Register = () => {
           (error.response && error.response.status >= 400) ||
           error.response.status <= 500
         ) {
-          // console.log(error)
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
             text: `${error.response.data.message}`,
           });
-          // alert("An error occurred:", error.response.data.message);
         } else {
           alert("An error occurred:", error.response.data.message);
         }

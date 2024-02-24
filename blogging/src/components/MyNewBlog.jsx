@@ -51,7 +51,10 @@ function MyNewBlog() {
         right: '30px', // Adjust this value to change the distance from the right
         zIndex: '999',
         width:"100px",
-        height: "100px" // Ensure it stays on top of other elements
+        height: "100px",
+        background: "-webkit-linear-gradient(#ff7e5f, #feb47b)",
+            border: "none",
+            color: "white", // Ensure it stays on top of other elements
       }}
         color="primary"
         id="floating-button"
@@ -127,6 +130,9 @@ function MyNewBlog() {
                 type="button"
                 onClick={handleSubmit}
                 className="btn btn-primary"
+                style={{background: "-webkit-linear-gradient(#ff7e5f, #feb47b)",
+            border: "none",
+            color: "white",}}
               >
                 Post Blog
               </button>

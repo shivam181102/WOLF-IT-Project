@@ -16,9 +16,7 @@ function App() {
   
   
   return (
-    <BrowserRouter>
-      
-        
+    <>
         <Toaster/>
         {wlc?<Navbar />:null}
         <Routes>
@@ -27,8 +25,8 @@ function App() {
           <Route path="/home" element={<Home />} />
           <Route path="/MyBlogs" element={<MyBlogs />} />
         </Routes>
-      
-    </BrowserRouter>
+        </>
+   
   );
 }
 
